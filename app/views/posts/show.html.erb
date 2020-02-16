@@ -21,6 +21,26 @@
         <%= link_to 'Destroy', @post, method: :delete, data: { confirm: 'Are you sure?' } %> | 
       <% end %>
       <%= link_to 'Back', posts_path %>
+      <hr />
+      <div>
+        <h3 class="osr-family-family">Comments</h3>
+        <% @post.comments.desc.each do |comment| %>
+          
+          <p>
+            <%= "#{comment.body} - #{author_name(comment.user)}" %> 
+          </p>
+        <% end %>
+
+        <%= form_with(model: [ @post, @post.comments.build ], local: true) do |form| %>
+          <p>
+            <%= form.text_area :body, autofocus: true, placeholder: 'Comment here...' %>
+            <%= form.hidden_field :user_id, value: current_user.id %>
+          </p>
+          <p>
+            <%= form.submit 'save', class: 'btn btn-default' %>
+          </p>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
